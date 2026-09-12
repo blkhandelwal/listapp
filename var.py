@@ -15,7 +15,7 @@ st.markdown("""
 st.markdown("""
 <div style="position:fixed; top:0; left:0; width:100%;
     background:green; color:red; padding:10px 16px;
-    font-size:10px; font-weight:bold; z-index:999999;">
+    font-size:20px; font-weight:bold; z-index:999999;">
     <marquee behavior="scroll" direction="left" scrollamount="3">
         khandelwal software Aapaka Hardik Swagat Karta h
     </marquee>
