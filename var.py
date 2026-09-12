@@ -1,7 +1,26 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="listapp",layout="wide")
+st.set_page_config(page_title="list",layout="wide")
+
+# Custom CSS
+st.markdown("""
+<style>
+    .block-container {padding-top: 1.5rem !important;}
+    .stAppDeployButton {display: none !important;}
+</style>
+""", unsafe_allow_html=True)
+
+# Top marquee banner
+st.markdown("""
+<div style="position:fixed; top:0; left:0; width:100%;
+    background:green; color:white; padding:0px 0px;
+    font-size:10px; font-weight:bold; z-index:999999;">
+    <marquee behavior="scroll" direction="left" scrollamount="3">
+        khandelwal software Aapaka Hardik Swagat Karta h
+    </marquee>
+</div>
+""", unsafe_allow_html=True)
 st.markdown("Balai Svyam Seva Sasthan       Surpura")  # ← Yahan se 📊 hata diya
 
 def load_data():
