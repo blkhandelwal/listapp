@@ -14,8 +14,8 @@ st.markdown("""
 # Top marquee banner
 st.markdown("""
 <div style="position:fixed; top:0; left:0; width:100%;
-    background:green; color:red; padding:0px 0px;
-    font-size:16px; font-weight:bold; z-index:999999;">
+    background:green; color:white; padding:0px 0px;
+    font-size:18px; font-weight:bold; z-index:999999;">
     <marquee behavior="scroll" direction="left" scrollamount="3">
         khandelwal software Aapaka Hardik Swagat Karta h
     </marquee>
