@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_tital="listapp",layout="wide")
+st.set_page_config(page_title="listapp",layout="wide")
 st.markdown("Balai Svyam Seva Sasthan       Surpura")  # ← Yahan se 📊 hata diya
 
 def load_data():
