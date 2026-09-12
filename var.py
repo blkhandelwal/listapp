@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_tital="listapp",layout="wide")
 st.markdown("Balai Svyam Seva Sasthan       Surpura")  # ← Yahan se 📊 hata diya
 
 def load_data():
     # --- A2 cell se date nikalne ke liye ---
-    raw_df = pd.read_csv(r"LTM.csv", header=None, nrows=2, encoding='latin-1')
+    raw_df = pd.read_csv("LTM.csv", header=None, nrows=2, encoding='latin-1')
     try:
         # Excel ka A2 cell = Row Index 1 (2nd row) aur Column Index 0 (A column)
         extracted_date = raw_df.iloc[1, 0] 
@@ -14,7 +14,7 @@ def load_data():
         extracted_date = ""
     
     # Data loading (Header=2 se)
-    df = pd.read_csv(r"e:\python\LTM.csv", header=2, encoding='latin-1').dropna(how='all')
+    df = pd.read_csv("LTM.csv", header=2, encoding='latin-1').dropna(how='all')
     df.columns = df.columns.str.strip()
     
     # Phone number ko normal string rakhna taaki search sahi ho
