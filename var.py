@@ -1,123 +1,78 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="list",layout="wide")
+st.set_page_config(page_title="list", layout="wide")
 
-# Custom CSS
 st.markdown("""
 <style>
     .block-container {padding-top: 1.5rem !important;}
     .stAppDeployButton {display: none !important;}
 </style>
-""", unsafe_allow_html=True)
-
-# Top marquee banner
-st.markdown("""
-<div style="position:fixed; top:0; left:0; width:100%;
-    background:green; color:white; padding:0px 0px;
-    font-size:18px; font-weight:bold; z-index:999999;">
-    <marquee behavior="scroll" direction="left" scrollamount="3">
-        khandelwal software Aapaka Hardik Swagat Karta h
-    </marquee>
+<div style="position:fixed; top:0; left:0; width:100%; background:green; color:white; font-size:18px; font-weight:bold; z-index:999999;">
+    <marquee behavior="scroll" direction="left" scrollamount="3">khandelwal software Aapaka Hardik Swagat Karta h</marquee>
 </div>
 """, unsafe_allow_html=True)
-st.markdown("Balai Svyam Seva Sasthan       Surpura")  # ← Yahan se 📊 hata diya
 
-def load_data():
-    # --- A2 cell se date nikalne ke liye ---
-    raw_df = pd.read_csv("LTM.csv", header=None, nrows=2, encoding='latin-1')
+st.markdown("Balai Svyam Seva Sasthan       Surpura")
+
+# Container me shartien aur Checkboxes
+with st.container(border=True):
+    st.subheader("Niyam aur Shartien (Terms & Conditions)")
+    st.write("1. Aapko sabhi niyamo ka palan karna hoga.\n2. Di gayi jankari poori tarah sahi honi chahiye.\n3. Kisi bhi galat jankari ke liye aap swayam zimmedar honge.")
+    st.divider()
+    col1, col2 = st.columns(2)
+    agree = col1.checkbox("I am agree")
+    not_agree = col2.checkbox("I am not agree")
+
+# "I am agree" tick hone par container hat jayega aur code chalega
+if agree:
+    st.markdown("<style>[data-testid='stVerticalBlock'] > div:has(div.stCheckbox) {display: none !important;}</style>", unsafe_allow_html=True)
     try:
-        # Excel ka A2 cell = Row Index 1 (2nd row) aur Column Index 0 (A column)
-        extracted_date = raw_df.iloc[1, 0] 
-    except Exception:
-        extracted_date = ""
-    
-    # Data loading (Header=2 se)
-    df = pd.read_csv("LTM.csv", header=2, encoding='latin-1').dropna(how='all')
-    df.columns = df.columns.str.strip()
-    
-    # Phone number ko normal string rakhna taaki search sahi ho
-    if 'phone' in df.columns:
-        df['phone'] = df['phone'].astype(str).str.replace(r'\.0$', '', regex=True).str.strip()
-    
-    # Baaki columns ke andar ke values ko number me badalna taaki total sahi nikle
-    num_cols = ['Nest Lo.', 'Discount', 'Kist', 'K.P.', 'Loan', 'L.P.', 'Inter', 'Other', 'Total', 'L.Balance']
-    for col in df.columns:
-        if col in num_cols:
-            df[col] = df[col].astype(str).str.replace(',', '').str.strip()
-            df[col] = pd.to_numeric(df[col], errors='coerce')
-            
-    return df, extracted_date
+        raw_df = pd.read_csv("LTM.csv", header=None, nrows=2, encoding='latin-1')
+        file_date = raw_df.iloc[1, 0] if len(raw_df) > 1 else ""
+        df = pd.read_csv("LTM.csv", header=2, encoding='latin-1').dropna(how='all')
+        df.columns = df.columns.str.strip()
+        
+        if 'phone' in df.columns:
+            df['phone'] = df['phone'].astype(str).str.replace(r'\.0$', '', regex=True).str.strip()
 
-# FUNCTION TO HIGHLIGHT TOTAL ROW IN RED
-def highlight_total_row(row):
-    if row.get('Name') == 'TOTAL':
-        return ['background-color: #ffcccc; color: #cc0000; font-weight: bold'] * len(row)
-    else:
-        return [''] * len(row)
-
-try:
-    df, file_date = load_data()
-    
-    # --- INPUT TEXT KE BILKUL BARABAR RIGHT MEIN DATE ---
-    st.markdown(
-        f"""
-        <div style='display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;'>
-            <label style='font-weight: 500; font-size: 16px; color: inherit; font-family: inherit;'>
-                Mobile Number Enter Karein:
-            </label>
-            <div style='font-weight: bold; color: #1f77b4; font-size: 16px;'>
-              List Date: {file_date}
-            </div>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
-    
-    val = st.text_input("Mobile Number Enter Karein:", label_visibility="collapsed")
-    
-    if val:
-        if 'phone' not in df.columns:
-            st.error("Phone column nahi mila!")
-            st.write("Available columns:", df.columns.tolist())
-        else:
+        st.success("✅ Aapne shartien sweekar kar li hain.")
+        st.markdown(f"<div style='display:flex; justify-content:space-between;'><b>Mobile Number Enter Karein:</b><b style='color:#1f77b4;'>List Date: {file_date}</b></div>", unsafe_allow_html=True)
+        
+        # Fixed Empty Label Warning
+        val = st.text_input("Mobile Number Enter Karein", label_visibility="collapsed")
+        
+        if val:
             res = df[df['phone'].astype(str).str.contains(str(val), na=False, regex=False)].copy()
-            
             if not res.empty:
-                num_cols = ['Nest Lo.', 'Discount', 'Kist', 'K.P.', 'Loan', 'L.P.', 'Inter', 'Other', 'Total', 'L.Balance']
-                existing_num_cols = [col for col in num_cols if col in df.columns]
+                num_cols = [c for c in ['Nest Lo.', 'Discount', 'Kist', 'K.P.', 'Loan', 'L.P.', 'Inter', 'Other', 'Total', 'L.Balance'] if c in res.columns]
+                for c in num_cols:
+                    res[c] = pd.to_numeric(res[c].astype(str).str.replace(',', '').str.strip(), errors='coerce')
                 
-                sums = {}
-                for col in res.columns:
-                    if col in existing_num_cols:
-                        sums[col] = res[col].sum()
-                    else:
-                        sums[col] = ""
-                
-                # TOTAL AMOUNT CALCULATION
-                total_amount = 0
-                if 'Total' in res.columns:
-                    total_amount = res['Total'].sum()
-                
+                sums = {c: res[c].sum() if c in num_cols else "" for c in res.columns}
                 sums['Name'] = "TOTAL"
-                total_row = pd.DataFrame([sums])
-                final = pd.concat([res, total_row], ignore_index=True)
+                total_amount = sums.get('Total', 0)
                 
-                # Khali rows ya 0 ko blank karna taaki table saaf dikhe
-                final = final.fillna('')
-                final = final.replace({0: '', 0.0: ''})
+                # Sabhi columns ko string me convert karke Arrow error fix kiya gaya hai
+                final = pd.concat([res, pd.DataFrame([sums])], ignore_index=True).fillna('')
+                for col in final.columns:
+                    final[col] = final[col].astype(str).str.replace(r'\.0$', '', regex=True)
                 
-                # --- FIXED: Yahan se total_amount se .00 hata diya gaya hai ---
                 st.success(f"✅ {len(res)} records mile | 💰 Total Amount: ₹{int(total_amount):,d}")
                 
-                # Table se phone column ko show hone se hatana
-                if 'phone' in final.columns:
+                if 'phone' in final.columns: 
                     final = final.drop(columns=['phone'])
                 
-                # Table ko bina .000000 ke aur bina phone number ke screen par dikhana
-                styled_final = final.style.apply(highlight_total_row, axis=1).format(precision=0, na_rep="")
-                st.dataframe(styled_final, use_container_width=True, hide_index=True)
+                # Updated width='stretch' for new Streamlit standard
+                st.dataframe(
+                    final.style.apply(lambda r: ['background-color: #ffcccc; color: #cc0000; font-weight: bold']*len(r) if r.get('Name') == 'TOTAL' else ['']*len(r), axis=1),
+                    width="stretch", 
+                    hide_index=True
+                )
             else:
-                st.warning(f"❌ Number '{val}' nahi mila!")          
-except Exception as e:
-    st.error(f"Error: {e}")
+                st.warning(f"❌ Number '{val}' nahi mila!")
+    except Exception as e:
+        st.error(f"Error: {e}")
+
+elif not_agree:
+    st.error("❌ Aapne shartien sweekar nahi ki hain. Data load nahi hoga.")
