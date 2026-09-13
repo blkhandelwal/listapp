@@ -20,20 +20,20 @@ st.markdown("Balai Svyam Seva Sasthan Surpura")
 
 # Container with English Terms & Conditions
 with st.container(border=True):
-    st.subheader("Terms & Conditions")
+    st.mardown("Terms & Conditions")
     st.markdown("""
-    1. **For Convenience Only:** This app has been developed solely for the convenience of members and to facilitate information sharing.
-    2. **No Owner Liability:** The app owner (developer) shall not be responsible or liable for any content or data displayed on this app.
-    3. **Organization/User Responsibility:** The concerned organization or the member submitting the information is solely responsible for any incorrect or misleading details.
-    4. **Possibility of Errors:** Data in the app may contain errors due to technical glitches or human oversight; please verify independently before making any decisions.
-    5. **Verification Required:** Members are entirely responsible for checking and confirming the authenticity and accuracy of the details provided in the app.
-    6. **Free Service:** This app is currently provided completely free of charge to all members.
-    7. **Rights Reserved:** The organization and app management reserve the right to alter or modify app rules, features, or services at any time.
-    8. **Compliance with Rules:** All users using the app must strictly follow the guidelines of the organization.
-    9. **App Shutdown on Misinformation:** If any member or organization worker spreads incorrect information or rumors, the app owner reserves the right to completely shut down the app.
-    10. **Right to Close App on Inconvenience:** If members experience any inconvenience while using the app, the app owner may terminate/shut down the app service.
-    11. **Legal Immunity:** No legal action can be initiated against the app owner (developer) in case of any error, incorrect data, or dispute arising from the app.
-    12. **Full Consent:** Using this app implies that you fully understand and agree to all the terms and conditions listed above.
+    1. This app has been developed solely for the convenience of members and to facilitate information sharing.
+    2. The app owner (developer) shall not be responsible or liable for any content or data displayed on this app.
+    3. The concerned organization or the member submitting the information is solely responsible for any incorrect or misleading details.
+    4. Data in the app may contain errors due to technical glitches or human oversight; please verify independently before making any decisions.
+    5. Members are entirely responsible for checking and confirming the authenticity and accuracy of the details provided in the app.
+    6. This app is currently provided completely free of charge to all members.
+    7. The organization and app management reserve the right to alter or modify app rules, features, or services at any time.
+    8. All users using the app must strictly follow the guidelines of the organization.
+    9. If any member or organization worker spreads incorrect information or rumors, the app owner reserves the right to completely shut down the app.
+    10. If members experience any inconvenience while using the app, the app owner may terminate/shut down the app service.
+    11. No legal action can be initiated against the app owner (developer) in case of any error, incorrect data, or dispute arising from the app.
+    12. Using this app implies that you fully understand and agree to all the terms and conditions listed above.
     """)
     st.divider()
     col1, col2 = st.columns(2)
