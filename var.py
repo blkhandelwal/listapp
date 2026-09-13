@@ -47,9 +47,9 @@ if agree or not_agree:
 # "I Agree" tick hone par data load hoga
 if agree:
     try:
-        raw_df = pd.read_csv(r"e:\python\LTM.csv", header=None, nrows=2, encoding='latin-1')
+        raw_df = pd.read_csv("LTM.csv", header=None, nrows=2, encoding='latin-1')
         file_date = raw_df.iloc[1, 0] if len(raw_df) > 1 else ""
-        df = pd.read_csv(r"e:\python\LTM.csv", header=2, encoding='latin-1').dropna(how='all')
+        df = pd.read_csv("LTM.csv", header=2, encoding='latin-1').dropna(how='all')
         df.columns = df.columns.str.strip()
         
         if 'phone' in df.columns:
