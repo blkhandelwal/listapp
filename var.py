@@ -20,7 +20,7 @@ st.markdown("Balai Svyam Seva Sasthan Surpura")
 
 # Container with English Terms & Conditions
 with st.container(border=True):
-    st.mardown("Terms & Conditions")
+    st.markdown("Terms & Conditions")
     st.markdown("""
     1. This app has been developed solely for the convenience of members and to facilitate information sharing.
     2. The app owner (developer) shall not be responsible or liable for any content or data displayed on this app.
