@@ -55,7 +55,7 @@ if agree:
         if 'phone' in df.columns:
             df['phone'] = df['phone'].astype(str).str.replace(r'\.0$', '', regex=True).str.strip()
 
-        st.success("✅ Aapne shartien sweekar kar li hain.")
+        #st.success("✅ Aapne shartien sweekar kar li hain.")
         st.markdown(f"<div style='display:flex; justify-content:space-between;'><b>Mobile Number Enter Karein:</b><b style='color:#1f77b4;'>List Date: {file_date}</b></div>", unsafe_allow_html=True)
         
         val = st.text_input("Mobile Number Enter Karein", label_visibility="collapsed")
