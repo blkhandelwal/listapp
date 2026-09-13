@@ -3,34 +3,53 @@ import pandas as pd
 
 st.set_page_config(page_title="list", layout="wide")
 
+# Top marquee background style
 st.markdown("""
 <style>
-    .block-container {padding-top: 1.5rem !important;}
+    .block-container {padding-top: 1.9rem !important;}
     .stAppDeployButton {display: none !important;}
 </style>
 <div style="position:fixed; top:0; left:0; width:100%; background:green; color:white; font-size:18px; font-weight:bold; z-index:999999;">
     <marquee behavior="scroll" direction="left" scrollamount="3">khandelwal software Aapaka Hardik Swagat Karta h</marquee>
 </div>
+<br>
 """, unsafe_allow_html=True)
 
-st.markdown("Balai Svyam Seva Sasthan       Surpura")
+# Ye heading hamesha screen par sabse upar dikhegi
+st.markdown("Balai Svyam Seva Sasthan Surpura")
 
-# Container me shartien aur Checkboxes
+# Container with English Terms & Conditions
 with st.container(border=True):
-    st.subheader("Niyam aur Shartien (Terms & Conditions)")
-    st.write("1. Aapko sabhi niyamo ka palan karna hoga.\n2. Di gayi jankari poori tarah sahi honi chahiye.\n3. Kisi bhi galat jankari ke liye aap swayam zimmedar honge.")
+    st.subheader("Terms & Conditions")
+    st.markdown("""
+    1. **For Convenience Only:** This app has been developed solely for the convenience of members and to facilitate information sharing.
+    2. **No Owner Liability:** The app owner (developer) shall not be responsible or liable for any content or data displayed on this app.
+    3. **Organization/User Responsibility:** The concerned organization or the member submitting the information is solely responsible for any incorrect or misleading details.
+    4. **Possibility of Errors:** Data in the app may contain errors due to technical glitches or human oversight; please verify independently before making any decisions.
+    5. **Verification Required:** Members are entirely responsible for checking and confirming the authenticity and accuracy of the details provided in the app.
+    6. **Free Service:** This app is currently provided completely free of charge to all members.
+    7. **Rights Reserved:** The organization and app management reserve the right to alter or modify app rules, features, or services at any time.
+    8. **Compliance with Rules:** All users using the app must strictly follow the guidelines of the organization.
+    9. **App Shutdown on Misinformation:** If any member or organization worker spreads incorrect information or rumors, the app owner reserves the right to completely shut down the app.
+    10. **Right to Close App on Inconvenience:** If members experience any inconvenience while using the app, the app owner may terminate/shut down the app service.
+    11. **Legal Immunity:** No legal action can be initiated against the app owner (developer) in case of any error, incorrect data, or dispute arising from the app.
+    12. **Full Consent:** Using this app implies that you fully understand and agree to all the terms and conditions listed above.
+    """)
     st.divider()
     col1, col2 = st.columns(2)
-    agree = col1.checkbox("I am agree")
-    not_agree = col2.checkbox("I am not agree")
+    agree = col1.checkbox("I Agree")
+    not_agree = col2.checkbox("I Disagree")
 
-# "I am agree" tick hone par container hat jayega aur code chalega
-if agree:
+# Checkbox click hone par keval Terms & Conditions wala container hide hoga
+if agree or not_agree:
     st.markdown("<style>[data-testid='stVerticalBlock'] > div:has(div.stCheckbox) {display: none !important;}</style>", unsafe_allow_html=True)
+
+# "I Agree" tick hone par data load hoga
+if agree:
     try:
-        raw_df = pd.read_csv("LTM.csv", header=None, nrows=2, encoding='latin-1')
+        raw_df = pd.read_csv(r"e:\python\LTM.csv", header=None, nrows=2, encoding='latin-1')
         file_date = raw_df.iloc[1, 0] if len(raw_df) > 1 else ""
-        df = pd.read_csv("LTM.csv", header=2, encoding='latin-1').dropna(how='all')
+        df = pd.read_csv(r"e:\python\LTM.csv", header=2, encoding='latin-1').dropna(how='all')
         df.columns = df.columns.str.strip()
         
         if 'phone' in df.columns:
@@ -39,7 +58,6 @@ if agree:
         st.success("✅ Aapne shartien sweekar kar li hain.")
         st.markdown(f"<div style='display:flex; justify-content:space-between;'><b>Mobile Number Enter Karein:</b><b style='color:#1f77b4;'>List Date: {file_date}</b></div>", unsafe_allow_html=True)
         
-        # Fixed Empty Label Warning
         val = st.text_input("Mobile Number Enter Karein", label_visibility="collapsed")
         
         if val:
@@ -53,7 +71,6 @@ if agree:
                 sums['Name'] = "TOTAL"
                 total_amount = sums.get('Total', 0)
                 
-                # Sabhi columns ko string me convert karke Arrow error fix kiya gaya hai
                 final = pd.concat([res, pd.DataFrame([sums])], ignore_index=True).fillna('')
                 for col in final.columns:
                     final[col] = final[col].astype(str).str.replace(r'\.0$', '', regex=True)
@@ -63,7 +80,6 @@ if agree:
                 if 'phone' in final.columns: 
                     final = final.drop(columns=['phone'])
                 
-                # Updated width='stretch' for new Streamlit standard
                 st.dataframe(
                     final.style.apply(lambda r: ['background-color: #ffcccc; color: #cc0000; font-weight: bold']*len(r) if r.get('Name') == 'TOTAL' else ['']*len(r), axis=1),
                     width="stretch", 
@@ -74,5 +90,6 @@ if agree:
     except Exception as e:
         st.error(f"Error: {e}")
 
+# "I Disagree" tick hone par container hide ho jayega aur ye msg aayega
 elif not_agree:
     st.error("❌ Aapne shartien sweekar nahi ki hain. Data load nahi hoga.")
