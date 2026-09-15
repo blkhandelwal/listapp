@@ -75,9 +75,9 @@ if st.session_state.user_choice is None:
 if st.session_state.user_choice == 'agree':
     st.markdown("Balai Svyam Seva Sasthan Surpura")
     try:
-        raw_df = pd.read_csv(r"e:\python\LTM.csv", header=None, nrows=2, encoding='latin-1')
+        raw_df = pd.read_csv("LTM.csv", header=None, nrows=2, encoding='latin-1')
         file_date = raw_df.iloc[1, 0] if len(raw_df) > 1 else ""
-        df = pd.read_csv(r"e:\python\LTM.csv", header=2, encoding='latin-1').dropna(how='all')
+        df = pd.read_csv("LTM.csv", header=2, encoding='latin-1').dropna(how='all')
         df.columns = df.columns.str.strip()
         
         if 'phone' in df.columns:
