@@ -91,10 +91,11 @@ elif st.session_state.user_choice == 'agree':
     
     st.markdown("Balai Svyam Seva Sasthan Surpura")
     
-    FILE1_PATH = "LTM.csv"
-    FILE2_PATH = "RD.xlsx"
+    # Automatically locate files in the same directory as Bill.py
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    FILE1_PATH = os.path.join(BASE_DIR, "LTM.csv")
+    FILE2_PATH = os.path.join(BASE_DIR, "RD.xlsx")
 
-    # Separate functions/logic to load CSV and Excel correctly
     def load_ltm_data(path, header_row=0):
         if os.path.exists(path):
             return pd.read_csv(path, dtype=str, header=header_row)
@@ -248,7 +249,7 @@ elif st.session_state.user_choice == 'agree':
                             else:
                                 st.error("RD फाइल में 'a/c no.' कॉलम नहीं मिला।")
                         else:
-                            st.error("RD फाइल नहीं मिल सकी!")
+                            st.error(f"RD फाइल नहीं मिल सकी! पाथ: {FILE2_PATH}")
                 else:
                     st.warning("मोबाइल नंबर गलत है।")
             else:
