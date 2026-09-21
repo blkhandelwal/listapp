@@ -91,8 +91,8 @@ elif st.session_state.user_choice == 'agree':
     
     st.markdown("Balai Svyam Seva Sasthan Surpura")
     
-    FILE1_PATH = "LTM.xlsx"
-    FILE2_PATH = "RD.xlsx"
+    FILE1_PATH = "LTM.csv"
+    FILE2_PATH = "RD.csv"
 
     def load_data(path, header_row=0):
         if os.path.exists(path):
