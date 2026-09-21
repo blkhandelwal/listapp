@@ -94,7 +94,7 @@ elif st.session_state.user_choice == 'agree':
     # Automatically locate files relative to script directory
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     FILE1_PATH = os.path.join(BASE_DIR, "LTM.csv")
-    FILE2_PATH = os.path.join(BASE_DIR, "RD.csv")
+    FILE2_PATH = os.path.join(BASE_DIR, "Rd.csv")
 
     def load_ltm_data(path, header_row=0):
         if os.path.exists(path):
