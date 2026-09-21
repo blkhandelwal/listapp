@@ -94,13 +94,18 @@ elif st.session_state.user_choice == 'agree':
     FILE1_PATH = "LTM.csv"
     FILE2_PATH = "RD.xlsx"
 
-    def load_data(path, header_row=0):
+    # Separate functions/logic to load CSV and Excel correctly
+    def load_ltm_data(path, header_row=0):
+        if os.path.exists(path):
+            return pd.read_csv(path, dtype=str, header=header_row)
+        return None
+
+    def load_rd_data(path, header_row=0):
         if os.path.exists(path):
             return pd.read_excel(path, dtype=str, header=header_row)
-        else:
-            return None
+        return None
 
-    df1 = load_data(FILE1_PATH, header_row=2)
+    df1 = load_ltm_data(FILE1_PATH, header_row=2)
 
     if df1 is None:
         st.error(f"LTM फाइल नहीं मिली! कृपया पाथ जांचें: {FILE1_PATH}")
@@ -132,7 +137,7 @@ elif st.session_state.user_choice == 'agree':
                     )
                     
                     with st.spinner("डेटा खोजा जा रहा है..."):
-                        df2 = load_data(FILE2_PATH, header_row=3)
+                        df2 = load_rd_data(FILE2_PATH, header_row=3)
 
                         if df2 is not None:
                             df2.columns = df2.columns.astype(str).str.strip().str.lower()
@@ -237,7 +242,7 @@ elif st.session_state.user_choice == 'agree':
                                         return ['' for _ in row]
 
                                     styled_df = display_df.style.apply(highlight_total, axis=1)
-                                    st.dataframe(styled_df, width="stretch", hide_index=True)
+                                    st.dataframe(styled_df, use_container_width=True, hide_index=True)
                                 else:
                                     st.warning("इस महीने में आपने बिल नहीं कटवाया है।")
                             else:
@@ -257,7 +262,6 @@ elif st.session_state.user_choice == 'agree':
             * यह संस्था आपकी अपनी है।
             * हम सबको मिलकर इसका सहयोग करना चाहिए।
             * यह हमारी और आपके परिवार की जरूरतों को पूरा करती है।
-            * यह हमारी और आपके परिवार की जरूरतों को पूरा करती है।
             * हमारे समाज में बहुत से लोग भारी ब्याज (Interest) चुकाते-चुकाते कभी कर्ज़ के जाल से बाहर नहीं आ पाते।
             * अगर हम सब एक-दूसरे का साथ देंगे, तो कोई भी भाई कभी आर्थिक मजबूरी में नहीं फँसेगा।
             * कर्ज़ मुक्त जीवन ही हमारे बच्चों को एक बेहतर कल दे सकता है।
@@ -266,7 +270,6 @@ elif st.session_state.user_choice == 'agree':
             * **याद रखें:** यह संस्था किसी एक की नहीं, बल्कि हम सबकी अपनी है।
             * जब हम सब मिलकर नियमों का पालन करते हैं, तभी हमारा समाज और परिवार कर्ज के जाल से बाहर निकलकर मजबूत बनता है।
             *आइए, एक बार फिर सोचें और मिलकर समाज को आगे बढ़ाएं!*
-
             """)
         
     st.success("आइए, हम सब मिलकर इस संस्था को मजबूत बनाएं!")
